@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS + CSS Clock</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div class="clock">
+      <div class="clock-face">
+        <!--<div class="horizontal-line"></div> FOR DEBUGGING-->
+        <!--<div class="vertical-line"></div> FOR DEBUGGING-->
+
+        <div class="center-dot"></div>
+
+        <div class="hand hour-hand"></div>
+        <div class="hand min-hand"></div>
+        <div class="hand second-hand"></div>
+      </div>
+    </div>
+    <br>
+    <div class="time"></div>
+  <script>
+    // Animation Logic
+
+    const secondHand = document.querySelector('.second-hand');
+    const minuteHand = document.querySelector('.min-hand');
+    const hourHand = document.querySelector('.hour-hand');
+
+    function setDate() {
+      const now = new Date();
+      let seconds = now.getSeconds();
+      const secondsDegrees = ((seconds / 60) * 360) + 90;
+      if (removeTransform(secondsDegrees) === false) {
+        secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
+      } else {
+        secondHand.style.transition = `all 0s`;
+        secondHand.style.transform = `rotate(0deg)`;
+      }
+
+      let minutes = now.getMinutes();
+      const minutesDegrees = ((minutes / 60) * 360) + 90;
+      if (removeTransform(minutesDegrees) === false) {
+        minuteHand.style.transform = `rotate(${minutesDegrees}deg)`;
+      } else {
+        minuteHand.style.transition = `all 0s`;
+        minuteHand.style.transform = `rotate(0deg)`;
+      }
+
+      let hours = now.getHours();
+      const hoursDegrees = ((hours / 60) * 360) + 90;
+      if (removeTransform(hoursDegrees) === false) {
+        hourHand.style.transform = `rotate(${hoursDegrees}deg)`;
+      } else {
+        hourHand.style.transition = `all 0s`;
+        hourHand.style.transform = `rotate(0deg)`;
+      }
+      
+      // 0th/60th (second/minute/hour) logic 
+      function removeTransform (value) {
+        if (value === 450 || value === 0) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+
+      // Displaying the Time
+
+      if (hours > 12) {
+        hours = hours - 12;
+      }
+
+      function ifSingleDigit(value) {
+        if (value < 10) {
+          value = "0" + value.toString();
+        }
+        return value;
+      }
+
+      seconds = ifSingleDigit(seconds);
+      minutes = ifSingleDigit(minutes);
+      hours = ifSingleDigit(hours);
+
+      document.querySelector('.time').innerHTML = `${hours}:${minutes}:${seconds}`;
+    }
+
+    setInterval(setDate, 1000);
+  </script>
+</body>
+</html>
