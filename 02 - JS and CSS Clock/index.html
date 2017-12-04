@@ -48,7 +48,7 @@
       }
 
       let hours = now.getHours();
-      const hoursDegrees = ((hours / 60) * 360) + 90;
+      const hoursDegrees = ((hours / 60) * 360);
       if (removeTransform(hoursDegrees) === false) {
         hourHand.style.transform = `rotate(${hoursDegrees}deg)`;
       } else {
